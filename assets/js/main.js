@@ -14,8 +14,9 @@ menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
 document.getElementById('yr').textContent = new Date().getFullYear();
 
 // Reveal on scroll
-const revealEls = document.querySelectorAll('.card, .tile, .strip-grid > div, .ci, .split > *, .mv > div');
+const revealEls = document.querySelectorAll('.tile, .steps li, .svc-list li, .ci, .mv > div');
 if ('IntersectionObserver' in window) {
+  document.documentElement.classList.add('js');
   revealEls.forEach(el => el.classList.add('reveal'));
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
