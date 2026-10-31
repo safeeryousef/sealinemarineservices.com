@@ -395,3 +395,8 @@ html[dir="rtl"] .sub-toggle { font-family: "Noto Kufi Arabic", sans-serif; }
 html[dir="rtl"] .eng figcaption strong { font-family: Montserrat, sans-serif; }
 @media (max-width: 640px) { .engines { grid-template-columns: repeat(2, 1fr); } }
 .eng img { object-position: center top; }
+/* Engine panel v2: manufacturer images on white */
+.eng { aspect-ratio: auto; background: #fff; border: 1px solid var(--line); box-shadow: none; display: flex; flex-direction: column; }
+.eng img { width: 100%; height: auto; aspect-ratio: 4/5; object-fit: contain; object-position: center; padding: 10px 8px 0; }
+.eng figcaption { position: static; background: none; color: var(--navy); padding: 8px 10px 12px; text-align: center; border-top: 1px solid var(--line); }
+.eng figcaption span { color: var(--muted); }
