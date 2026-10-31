@@ -32,7 +32,7 @@ form.addEventListener('submit', e => {
   const d = new FormData(form);
   const text = `Hello Sea Line Marine,\n\nName: ${d.get('name')}\nPhone: ${d.get('phone') || '-'}\nService: ${d.get('service')}\n\n${d.get('message')}`;
   if (via === 'email') {
-    location.href = `mailto:sealinemarineservices.llc@hotmail.com?cc=sealinemarine.ae@gmail.com&subject=${encodeURIComponent('Website enquiry – ' + d.get('service'))}&body=${encodeURIComponent(text)}`;
+    location.href = `mailto:sales@sealinemarineservices.com?cc=sealinemarine.ae@gmail.com&subject=${encodeURIComponent('Website enquiry – ' + d.get('service'))}&body=${encodeURIComponent(text)}`;
   } else {
     window.open(`https://wa.me/971502045797?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
   }
