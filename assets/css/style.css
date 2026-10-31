@@ -320,3 +320,8 @@ html[dir="rtl"] .foot .en { color: #fff; margin-bottom: 4px; }
 .form-note.ok { color: #0f7a3d; font-weight: 600; }
 .form-note.err { color: #b42318; font-weight: 600; }
 .btn:disabled { opacity: .6; cursor: wait; }
+
+/* Hero video (loaded by JS on larger screens only) */
+.hero-video { opacity: 0; transition: opacity 1.2s ease; }
+.hero-video.playing { opacity: 1; }
+html[dir="rtl"] .hero .hero-bg { transform: scaleX(-1); }

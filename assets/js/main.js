@@ -15,6 +15,23 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 
 const isArabic = document.documentElement.lang === 'ar';
 
+// Hero video: only on larger screens, and never when the visitor prefers reduced motion or saves data
+const heroVideo = document.querySelector('.hero-video');
+if (heroVideo
+  && matchMedia('(min-width: 768px)').matches
+  && !matchMedia('(prefers-reduced-motion: reduce)').matches
+  && !(navigator.connection && navigator.connection.saveData)) {
+  [['webm', 'video/webm'], ['mp4', 'video/mp4']].forEach(([key, type]) => {
+    const s = document.createElement('source');
+    s.src = heroVideo.dataset[key];
+    s.type = type;
+    heroVideo.appendChild(s);
+  });
+  heroVideo.addEventListener('playing', () => heroVideo.classList.add('playing'), { once: true });
+  heroVideo.load();
+  heroVideo.play().catch(() => {});
+}
+
 // Reveal on scroll
 const revealEls = document.querySelectorAll('.tile, .steps li, .svc-list li, .ci, .mv > div, .incl li');
 if ('IntersectionObserver' in window) {
