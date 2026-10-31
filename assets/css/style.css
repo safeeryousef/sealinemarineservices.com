@@ -337,3 +337,46 @@ html[dir="rtl"] .hero .hero-bg { transform: scaleX(-1); }
 .scene3d-ready .scene-hint { opacity: 1; }
 html[dir="rtl"] .scene-hint { left: auto; right: 14px; }
 .commercial .btn + .btn { margin-inline-start: 12px; }
+
+/* ---------- Navigation v2: spacing + Services dropdown ---------- */
+.nav { gap: 40px; }
+.brand { flex-shrink: 0; }
+.brand img { height: 40px; }
+.brand-text { font-size: 1.12rem; white-space: nowrap; }
+.menu { gap: 6px; }
+.menu > a:not(.btn), .sub-toggle { padding: 10px 12px; border-radius: 8px; white-space: nowrap; font-size: .95rem; }
+.menu > a:not(.btn):hover, .sub-toggle:hover, .has-sub:focus-within .sub-toggle { background: var(--bg-alt); color: var(--teal-dark); }
+.menu .btn { margin-inline-start: 10px; white-space: nowrap; }
+.menu .lang { margin-inline-start: 4px; }
+.sub-toggle { background: none; border: 0; cursor: pointer; font: 600 .95rem Inter, system-ui, sans-serif; color: var(--navy); display: inline-flex; align-items: center; gap: 6px; }
+.caret { width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform .2s; }
+.has-sub { position: relative; }
+.sub { position: absolute; top: calc(100% + 10px); left: 50%; transform: translate(-50%, 6px); display: grid; grid-template-columns: 1fr 1fr; gap: 8px 28px; min-width: 560px; background: #fff; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 20px 50px rgba(11,43,61,.16); padding: 18px 20px; opacity: 0; visibility: hidden; transition: opacity .18s, transform .18s, visibility .18s; z-index: 70; }
+.sub::before { content: ""; position: absolute; top: -12px; left: 0; right: 0; height: 12px; }
+.has-sub:hover .sub, .has-sub:focus-within .sub, .has-sub.open .sub { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.has-sub:hover .caret, .has-sub.open .caret { transform: rotate(225deg) translateY(-1px); }
+.sub a { display: block; padding: 7px 10px; border-radius: 8px; color: var(--ink); text-decoration: none; font-size: .92rem; font-weight: 500; }
+.sub a:hover { background: var(--bg-alt); color: var(--teal-dark); }
+.sub a.sub-head { font-family: Montserrat, sans-serif; font-weight: 700; color: var(--navy); font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; border-bottom: 1px solid var(--line); border-radius: 0; margin-bottom: 4px; padding-bottom: 9px; }
+html[dir="rtl"] .sub a.sub-head { letter-spacing: 0; text-transform: none; font-family: "Noto Kufi Arabic", sans-serif; }
+html[dir="rtl"] .sub-toggle { font-family: "Noto Kufi Arabic", sans-serif; }
+@media (max-width: 1180px) {
+  .menu { gap: 0; max-height: calc(100vh - 76px); overflow-y: auto; }
+  .menu > a:not(.btn), .sub-toggle { border-radius: 0; padding: 13px 4px; border-bottom: 1px solid var(--line); width: 100%; justify-content: space-between; font-size: 1rem; }
+  .menu > a:not(.btn):hover, .sub-toggle:hover { background: none; }
+  .menu .btn, .menu .lang { margin-inline-start: 0; }
+  .sub { position: static; transform: none; min-width: 0; display: none; grid-template-columns: 1fr; box-shadow: none; border: 0; border-radius: 0; padding: 6px 0 10px 12px; opacity: 1; visibility: visible; transition: none; background: var(--bg-alt); }
+  html[dir="rtl"] .sub { padding: 6px 12px 10px 0; }
+  .has-sub:hover .sub, .has-sub:focus-within .sub { transform: none; }
+  .has-sub .sub { display: none; }
+  .has-sub.open .sub { display: grid; }
+  .sub::before { display: none; }
+}
+.menu .sub a:not(.btn) { font-weight: 500; font-size: .92rem; padding: 7px 10px; border-bottom: 0; width: auto; }
+.menu .sub a.sub-head { font-weight: 700; font-size: .8rem; border-bottom: 1px solid var(--line); padding-bottom: 9px; }
+@media (max-width: 1180px) { .menu .sub a:not(.btn) { padding: 9px 10px; font-size: .97rem; } }
+@media (max-width: 1180px) {
+  .menu .has-sub .sub, .menu .has-sub.open .sub, .menu .has-sub:hover .sub, .menu .has-sub:focus-within .sub { left: auto; right: auto; transform: none; width: 100%; min-width: 0; }
+  .has-sub { width: 100%; }
+}
+@media (max-width: 640px) { .nav { gap: 12px; } .brand img { height: 32px; } .brand-text { font-size: .98rem; } }

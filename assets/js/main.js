@@ -10,6 +10,24 @@ menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
   toggle.setAttribute('aria-expanded', false);
 }));
 
+// Services dropdown: click/tap toggles it (hover also opens it on desktop via CSS)
+document.querySelectorAll('.has-sub').forEach(sub => {
+  const btn = sub.querySelector('.sub-toggle');
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    const open = sub.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open);
+  });
+  sub.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { sub.classList.remove('open'); btn.setAttribute('aria-expanded', false); btn.focus(); }
+  });
+});
+document.addEventListener('click', e => {
+  document.querySelectorAll('.has-sub.open').forEach(sub => {
+    if (!sub.contains(e.target)) { sub.classList.remove('open'); sub.querySelector('.sub-toggle').setAttribute('aria-expanded', false); }
+  });
+});
+
 // Footer year
 document.getElementById('yr').textContent = new Date().getFullYear();
 
