@@ -53,22 +53,58 @@ if (lb) {
   });
 }
 
-// Enquiry form: static hosting has no mail server, so hand the message to WhatsApp or the email app
+// Enquiry form: "Send Enquiry" posts to FormSubmit, which emails sales@ (static hosting has no mail server);
+// the WhatsApp button hands the same message to WhatsApp instead.
+const SALES = 'sales@sealinemarineservices.com';
 const form = document.getElementById('enquiry');
 if (form) {
-  let via = 'whatsapp';
+  const status = document.getElementById('form-status');
+  const sendBtn = form.querySelector('button[data-via="email"]');
+  const t = isArabic
+    ? { sending: 'جارٍ الإرسال…', ok: 'شكراً! تم إرسال استفسارك وسنتواصل معك قريباً.', fail: 'تعذّر الإرسال. يرجى مراسلتنا عبر واتساب أو على ' + SALES }
+    : { sending: 'Sending…', ok: 'Thank you! Your enquiry has been sent – we\'ll get back to you shortly.', fail: 'Sorry, it could not be sent. Please WhatsApp us or email ' + SALES };
+  let via = 'email';
   form.querySelectorAll('button[data-via]').forEach(b => b.addEventListener('click', () => { via = b.dataset.via; }));
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     const d = new FormData(form);
+    if (d.get('_honey')) return;
     const text = isArabic
       ? `مرحباً سي لاين مارين،\n\nالاسم: ${d.get('name')}\nالهاتف: ${d.get('phone') || '-'}\nالخدمة: ${d.get('service')}\n\n${d.get('message')}`
       : `Hello Sea Line Marine,\n\nName: ${d.get('name')}\nPhone: ${d.get('phone') || '-'}\nService: ${d.get('service')}\n\n${d.get('message')}`;
-    if (via === 'email') {
-      const subject = (isArabic ? 'استفسار من الموقع – ' : 'Website enquiry – ') + d.get('service');
-      location.href = `mailto:sales@sealinemarineservices.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
-    } else {
+    if (via === 'whatsapp') {
       window.open(`https://wa.me/971502045797?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+      return;
+    }
+    status.className = 'form-note';
+    status.textContent = t.sending;
+    sendBtn.disabled = true;
+    try {
+      const res = await fetch(`https://formsubmit.co/ajax/${SALES}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject: `Website enquiry – ${d.get('service')}${isArabic ? ' (Arabic site)' : ''}`,
+          _template: 'table',
+          _replyto: d.get('email') || undefined,
+          Name: d.get('name'),
+          Phone: d.get('phone'),
+          Email: d.get('email') || '-',
+          Service: d.get('service'),
+          Message: d.get('message'),
+          Page: location.href,
+        }),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || String(json.success) !== 'true') throw new Error(json.message || res.status);
+      form.reset();
+      status.className = 'form-note ok';
+      status.textContent = t.ok;
+    } catch (err) {
+      status.className = 'form-note err';
+      status.textContent = t.fail;
+    } finally {
+      sendBtn.disabled = false;
     }
   });
 }
