@@ -32,6 +32,27 @@ if (heroVideo
   heroVideo.play().catch(() => {});
 }
 
+// 3D boat scene: load three.js + the scene only on larger screens, once the rentals banner is near the viewport
+const scene3d = document.querySelector('[data-scene3d]');
+if (scene3d
+  && matchMedia('(min-width: 981px)').matches
+  && !matchMedia('(prefers-reduced-motion: reduce)').matches
+  && 'IntersectionObserver' in window) {
+  const loadScript = src => new Promise((ok, fail) => {
+    const s = document.createElement('script');
+    s.src = src; s.onload = ok; s.onerror = fail;
+    document.head.appendChild(s);
+  });
+  const watch = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    watch.disconnect();
+    loadScript('https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js')
+      .then(() => loadScript('/assets/js/scene3d.js?v=13'))
+      .catch(() => {});
+  }, { rootMargin: '300px' });
+  watch.observe(scene3d);
+}
+
 // Reveal on scroll
 const revealEls = document.querySelectorAll('.tile, .steps li, .svc-list li, .ci, .mv > div, .incl li');
 if ('IntersectionObserver' in window) {

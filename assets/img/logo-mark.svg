@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 100" width="270" height="100" role="img" aria-label="Sea Line Marine">
+  <style>
+    .boat { fill: none; stroke: #0b2b3d; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+    .w1, .w2 { fill: none; stroke: #0aa2b5; stroke-linecap: round; }
+    .w1 { stroke-width: 7; }
+    .w2 { stroke-width: 4; opacity: .8; }
+    .draw { stroke-dasharray: 320; stroke-dashoffset: 320; animation: draw 1.4s cubic-bezier(.6,.1,.2,1) forwards; }
+    .w2.draw { animation-delay: .25s; }
+    .boatg { animation: bob 4s ease-in-out 1.4s infinite; transform-origin: 140px 50px; }
+    .wavesg { animation: drift 6s ease-in-out 1.4s infinite; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    @keyframes bob { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-2.5px) rotate(-.8deg); } }
+    @keyframes drift { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-6px); } }
+    @media (prefers-reduced-motion: reduce) { .draw { animation: none; stroke-dashoffset: 0; } .boatg, .wavesg { animation: none; } }
+  </style>
+  <g class="boatg">
+    <path class="boat" d="M78 22 C116 10 168 8 204 15"/>
+    <path class="boat" d="M95 21 L80 50"/>
+    <path class="boat" d="M154 12 L166 42"/>
+    <path class="boat" d="M204 15 L236 52"/>
+    <path class="boat" d="M34 60 C104 48 182 42 262 46"/>
+    <path class="boat" d="M62 68 C126 67 194 63 242 60 L262 46"/>
+  </g>
+  <g class="wavesg">
+    <path class="w1 draw" d="M10 76 C70 62 132 90 252 72"/>
+    <path class="w2 draw" d="M32 90 C92 80 154 98 244 86"/>
+  </g>
+</svg>
