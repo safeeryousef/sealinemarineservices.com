@@ -24,6 +24,29 @@ if ('IntersectionObserver' in window) {
   revealEls.forEach(el => io.observe(el));
 }
 
+// Our Work lightbox
+const lb = document.getElementById('lightbox');
+const shots = [...document.querySelectorAll('.gallery .g')];
+const lbImg = lb.querySelector('img');
+const lbCap = lb.querySelector('figcaption');
+let shot = 0;
+const showShot = i => {
+  shot = (i + shots.length) % shots.length;
+  const g = shots[shot];
+  lbImg.src = g.dataset.full;
+  lbImg.alt = g.querySelector('img').alt;
+  lbCap.textContent = g.querySelector('span').textContent;
+};
+shots.forEach((g, i) => g.addEventListener('click', () => { showShot(i); lb.showModal(); }));
+lb.querySelector('.lb-close').addEventListener('click', () => lb.close());
+lb.querySelector('.lb-prev').addEventListener('click', () => showShot(shot - 1));
+lb.querySelector('.lb-next').addEventListener('click', () => showShot(shot + 1));
+lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+lb.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') showShot(shot - 1);
+  if (e.key === 'ArrowRight') showShot(shot + 1);
+});
+
 // Enquiry form: static hosting has no mail server, so hand the message to WhatsApp or the email app
 const form = document.getElementById('enquiry');
 let via = 'whatsapp';
